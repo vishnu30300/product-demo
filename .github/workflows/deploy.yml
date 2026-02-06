@@ -37,4 +37,3 @@ jobs:
               -i ~/.ssh/id_ed25519 \
               ec2-user@${{ secrets.EC2_HOST }} \
               "pkill -f 'java -jar' || true && nohup java -jar app.jar > app.log 2>&1 &"
-      
