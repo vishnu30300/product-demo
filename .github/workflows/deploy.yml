@@ -30,6 +30,8 @@ jobs:
         key: ${{ secrets.EC2_KEY }}
         source: "target/*.jar"
         target: "springboot-app"
+        use_insecure_cipher: true
+
 
     - name: Run app on EC2
       uses: appleboy/ssh-action@v1.0.3
