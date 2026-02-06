@@ -23,11 +23,18 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_KEY_B64 }}" | base64 --decode > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
+
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
-          
-          scp -i ~/.ssh/id_ed25519 target/*.jar \
-            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }}:/home/ec2-user/app.jar
-          
-          ssh -i ~/.ssh/id_ed25519 \
-            ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
-            "pkill -f 'java -jar' || true && nohup java -jar app.jar > app.log 2>&1 &"
+
+          scp -o IdentitiesOnly=yes \
+              -o StrictHostKeyChecking=no \
+              -i ~/.ssh/id_ed25519 \
+              target/*.jar \
+              ec2-user@${{ secrets.EC2_HOST }}:/home/ec2-user/app.jar
+
+          ssh -o IdentitiesOnly=yes \
+              -o StrictHostKeyChecking=no \
+              -i ~/.ssh/id_ed25519 \
+              ec2-user@${{ secrets.EC2_HOST }} \
+              "pkill -f 'java -jar' || true && nohup java -jar app.jar > app.log 2>&1 &"
+      
