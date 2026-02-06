@@ -32,14 +32,16 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    // Generic (catch all)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleGeneral(Exception ex) {
+
+       // ex.printStackTrace(); // prints full stacktrace in logs
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(Map.of(
                         "timestamp", LocalDateTime.now(),
-                        "error", "Something went wrong"
+                        "error", ex.getMessage()
                 ));
     }
+
 }
