@@ -4,6 +4,7 @@ import com.credresolve.sbdemo2.dao.ProductRepository;
 import com.credresolve.sbdemo2.exception.InvalidProductException;
 import com.credresolve.sbdemo2.exception.ProductNotFoundException;
 import com.credresolve.sbdemo2.model.Product;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.*;
 
 @Service
+@Transactional
 public class ProductService {
     @Autowired
     private ProductRepository prp;
